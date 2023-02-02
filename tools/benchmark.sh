@@ -157,7 +157,7 @@ const_params="
   \
   --memtablerep=skip_list \
   --bloom_bits=10 \
-  --open_files=-1 \
+  --open_files=65536 \
   \
   $bench_args"
 
@@ -283,7 +283,6 @@ function run_bulkload {
        --memtablerep=vector \
        --allow_concurrent_memtable_write=false \
        --disable_wal=1 \
-       --seed=$( date +%s ) \
        2>&1 | tee -a $log_file_name"
   if [[ "$job_id" != "" ]]; then
     echo "Job ID: ${job_id}" > $log_file_name
@@ -348,7 +347,6 @@ function run_manual_compaction_worker {
        --allow_concurrent_memtable_write=false \
        --disable_wal=1 \
        --max_background_compactions=$4 \
-       --seed=$( date +%s ) \
        2>&1 | tee -a $log_file_name"
 
   if [[ "$job_id" != "" ]]; then
@@ -444,7 +442,6 @@ function run_fillseq {
        --memtablerep=vector \
        --allow_concurrent_memtable_write=false \
        --disable_wal=$1 \
-       --seed=$( date +%s ) \
        2>&1 | tee -a $log_file_name"
 
   if [[ "$job_id" != "" ]]; then
@@ -469,7 +466,6 @@ function run_change {
        $params_w \
        --threads=$num_threads \
        --merge_operator=\"put\" \
-       --seed=$( date +%s ) \
        2>&1 | tee -a $log_file_name"
   if [[ "$job_id" != "" ]]; then
     echo "Job ID: ${job_id}" > $log_file_name
@@ -489,7 +485,6 @@ function run_filluniquerandom {
        --sync=0 \
        $params_w \
        --threads=1 \
-       --seed=$( date +%s ) \
        2>&1 | tee -a $log_file_name"
   if [[ "$job_id" != "" ]]; then
     echo "Job ID: ${job_id}" > $log_file_name
@@ -508,7 +503,6 @@ function run_readrandom {
        --use_existing_db=1 \
        $params_w \
        --threads=$num_threads \
-       --seed=$( date +%s ) \
        2>&1 | tee -a $log_file_name"
   if [[ "$job_id" != "" ]]; then
     echo "Job ID: ${job_id}" > $log_file_name
@@ -528,7 +522,6 @@ function run_multireadrandom {
        --threads=$num_threads \
        --batch_size=10 \
        $params_w \
-       --seed=$( date +%s ) \
        2>&1 | tee -a $log_file_name"
   if [[ "$job_id" != "" ]]; then
     echo "Job ID: ${job_id}" > $log_file_name
@@ -550,7 +543,6 @@ function run_readwhile {
        $params_w \
        --threads=$num_threads \
        --merge_operator=\"put\" \
-       --seed=$( date +%s ) \
        2>&1 | tee -a $log_file_name"
   if [[ "$job_id" != "" ]]; then
     echo "Job ID: ${job_id}" > $log_file_name
@@ -576,7 +568,6 @@ function run_rangewhile {
        --merge_operator=\"put\" \
        --seek_nexts=$num_nexts_per_seek \
        --reverse_iterator=$reverse_arg \
-       --seed=$( date +%s ) \
        2>&1 | tee -a $log_file_name"
   echo $cmd | tee $log_file_name
   eval $cmd
@@ -594,7 +585,6 @@ function run_range {
        --threads=$num_threads \
        --seek_nexts=$num_nexts_per_seek \
        --reverse_iterator=$reverse_arg \
-       --seed=$( date +%s ) \
        2>&1 | tee -a $log_file_name"
   if [[ "$job_id" != "" ]]; then
     echo "Job ID: ${job_id}" > $log_file_name
